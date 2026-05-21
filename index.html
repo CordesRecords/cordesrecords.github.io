@@ -65,6 +65,22 @@
     gap: 24px;
   }
 
+  .store-link {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-decoration: none;
+    border: 1px solid var(--gold);
+    padding: 6px 12px;
+    transition: all 0.2s;
+  }
+
+  .store-link:hover {
+    background: var(--gold);
+    color: var(--black);
+  }
+
   .ebay-badge {
     font-size: 0.6rem;
     letter-spacing: 0.2em;
@@ -370,10 +386,10 @@
 
 <header>
   <div class="logo-block">
-    <span class="logo-main">Cordes Records</span>
-    <span class="logo-sub">Vinyl Store — Sydney</span>
+    <img src="logo.png" alt="Cordes Records" style="height: 48px; width: auto; display: block;">
   </div>
   <div class="header-right">
+    <a href="https://www.discogs.com/seller/mywebdots_records/profile" target="_blank" class="store-link">Discogs Store</a>
     <span class="ebay-badge">Live eBay Listings</span>
   </div>
 </header>
@@ -408,8 +424,9 @@
     Cordes Records Vinyl Store<br>
     All purchases completed securely on eBay
   </div>
-  <div class="footer-right">
+  <div class="footer-right" style="display: flex; flex-direction: column; align-items: flex-end; gap: 8px;">
     <a href="https://www.ebay.com.au/str/CordesRecordsVinylStore" target="_blank">Visit eBay Store →</a>
+    <a href="https://www.discogs.com/seller/mywebdots_records/profile" target="_blank">Visit Discogs Store →</a>
   </div>
 </footer>
 
