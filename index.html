@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cordes Records — Vinyl Store</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --cream: #f5f0e8;
+    --red: #c8192a;
+    --gold: #c9a84c;
+    --grey: #2a2a2a;
+    --light-grey: #444;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--black);
+    color: var(--cream);
+    font-family: 'DM Mono', monospace;
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  header {
+    border-bottom: 1px solid #222;
+    padding: 0 40px;
+    position: sticky;
+    top: 0;
+    background: var(--black);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 80px;
+  }
+
+  .logo-block {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+  }
+
+  .logo-main {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.4rem;
+    letter-spacing: 0.08em;
+    color: var(--cream);
+  }
+
+  .logo-sub {
+    font-size: 0.62rem;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .ebay-badge {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--light-grey);
+    border: 1px solid #333;
+    padding: 6px 12px;
+  }
+
+  /* HERO STRIP */
+  .hero-strip {
+    background: var(--red);
+    padding: 12px 40px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    overflow: hidden;
+  }
+
+  .hero-strip-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 0.15em;
+    white-space: nowrap;
+    animation: marquee 20s linear infinite;
+  }
+
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* CONTROLS */
+  .controls {
+    padding: 32px 40px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #1a1a1a;
+  }
+
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.8rem;
+    font-style: italic;
+    color: var(--cream);
+  }
+
+  .item-count {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--light-grey);
+    text-transform: uppercase;
+  }
+
+  .filter-row {
+    display: flex;
+    gap: 8px;
+  }
+
+  .filter-btn {
+    background: none;
+    border: 1px solid #333;
+    color: var(--light-grey);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .filter-btn:hover, .filter-btn.active {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  /* GRID */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1px;
+    background: #111;
+    padding: 1px;
+  }
+
+  .card {
+    background: var(--black);
+    display: flex;
+    flex-direction: column;
+    transition: background 0.2s;
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card:hover {
+    background: #111;
+  }
+
+  .card:hover .card-img img {
+    transform: scale(1.04);
+  }
+
+  .card-img {
+    aspect-ratio: 1;
+    overflow: hidden;
+    background: #111;
+    position: relative;
+  }
+
+  .card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+    display: block;
+  }
+
+  .card-img .no-img {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #111;
+  }
+
+  .vinyl-placeholder {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: radial-gradient(circle at center, #222 20%, #1a1a1a 20%, #333 40%, #1a1a1a 40%, #2a2a2a 60%, #111 60%);
+    opacity: 0.4;
+  }
+
+  .condition-tag {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: var(--black);
+    color: var(--gold);
+    font-size: 0.55rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 4px 8px;
+    border: 1px solid #333;
+  }
+
+  .card-body {
+    padding: 16px 20px 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    border-top: 1px solid #111;
+  }
+
+  .card-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 0.95rem;
+    line-height: 1.3;
+    color: var(--cream);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .card-meta {
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    color: var(--light-grey);
+    text-transform: uppercase;
+  }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+    padding-top: 12px;
+    border-top: 1px solid #1a1a1a;
+  }
+
+  .price {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    letter-spacing: 0.05em;
+    color: var(--cream);
+  }
+
+  .price-currency {
+    font-size: 0.8rem;
+    color: var(--light-grey);
+    margin-right: 2px;
+  }
+
+  .buy-btn {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--red);
+    border: 1px solid var(--red);
+    padding: 6px 12px;
+    transition: all 0.2s;
+  }
+
+  .card:hover .buy-btn {
+    background: var(--red);
+    color: var(--cream);
+  }
+
+  /* LOADING */
+  .loading {
+    padding: 80px 40px;
+    text-align: center;
+  }
+
+  .loading-disc {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid #222;
+    border-top-color: var(--red);
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto 24px;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .loading p {
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--light-grey);
+  }
+
+  /* ERROR */
+  .error-state {
+    padding: 80px 40px;
+    text-align: center;
+  }
+
+  .error-state h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    color: var(--red);
+    margin-bottom: 12px;
+  }
+
+  .error-state p {
+    font-size: 0.7rem;
+    color: var(--light-grey);
+    letter-spacing: 0.1em;
+    line-height: 1.8;
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid #1a1a1a;
+    padding: 32px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1px;
+  }
+
+  .footer-left {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: var(--light-grey);
+    text-transform: uppercase;
+    line-height: 2;
+  }
+
+  .footer-right a {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+
+  .footer-right a:hover {
+    color: var(--cream);
+  }
+
+  @media (max-width: 600px) {
+    header { padding: 0 20px; }
+    .controls { padding: 24px 20px; flex-direction: column; align-items: flex-start; gap: 16px; }
+    .grid { grid-template-columns: repeat(2, 1fr); }
+    footer { padding: 24px 20px; flex-direction: column; gap: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-block">
+    <span class="logo-main">Cordes Records</span>
+    <span class="logo-sub">Vinyl Store — Sydney</span>
+  </div>
+  <div class="header-right">
+    <span class="ebay-badge">Live eBay Listings</span>
+  </div>
+</header>
+
+<div class="hero-strip">
+  <div class="hero-strip-text">
+    VINYL · RECORDS · RARE FINDS · CORDES RECORDS · VINYL · RECORDS · RARE FINDS · CORDES RECORDS · VINYL · RECORDS · RARE FINDS · CORDES RECORDS · VINYL · RECORDS · RARE FINDS · CORDES RECORDS &nbsp;&nbsp;&nbsp;
+  </div>
+</div>
+
+<div class="controls">
+  <div>
+    <div class="section-title">Current Listings</div>
+    <div class="item-count" id="item-count">Loading...</div>
+  </div>
+  <div class="filter-row">
+    <button class="filter-btn active" onclick="sortItems('default')">Latest</button>
+    <button class="filter-btn" onclick="sortItems('price-asc')">Price ↑</button>
+    <button class="filter-btn" onclick="sortItems('price-desc')">Price ↓</button>
+  </div>
+</div>
+
+<div id="listings">
+  <div class="loading">
+    <div class="loading-disc"></div>
+    <p>Spinning up the crates...</p>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-left">
+    Cordes Records Vinyl Store<br>
+    All purchases completed securely on eBay
+  </div>
+  <div class="footer-right">
+    <a href="https://www.ebay.com.au/str/CordesRecordsVinylStore" target="_blank">Visit eBay Store →</a>
+  </div>
+</footer>
+
+<script>
+  const APP_ID = 'KatieCor-KatesCra-PRD-31836c410-54fd3cf9';
+  const SELLER = 'CordesRecordsVinylStore';
+  let allItems = [];
+
+  async function fetchListings() {
+    const url = `https://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsAdvanced&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=${APP_ID}&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&itemFilter(0).name=Seller&itemFilter(0).value=${SELLER}&itemFilter(1).name=ListingType&itemFilter(1).value=All&paginationInput.entriesPerPage=100&outputSelector=PictureURLLargeSize`;
+
+    try {
+      const res = await fetch(url);
+      const data = await res.json();
+      const response = data?.findItemsAdvancedResponse?.[0];
+      const items = response?.searchResult?.[0]?.item || [];
+
+      if (items.length === 0) {
+        showError('No listings found', 'No active listings were found for this seller. Check back soon.');
+        return;
+      }
+
+      allItems = items;
+      document.getElementById('item-count').textContent = `${items.length} item${items.length !== 1 ? 's' : ''} available`;
+      renderGrid(items);
+
+    } catch (err) {
+      showError('Could not load listings', 'There was a problem connecting to eBay. Please try refreshing the page.');
+    }
+  }
+
+  function renderGrid(items) {
+    const grid = document.createElement('div');
+    grid.className = 'grid';
+
+    items.forEach(item => {
+      const title = item.title?.[0] || 'Untitled';
+      const price = parseFloat(item.sellingStatus?.[0]?.currentPrice?.[0]?.__value__ || 0).toFixed(2);
+      const currency = item.sellingStatus?.[0]?.currentPrice?.[0]?.['@currencyId'] || 'AUD';
+      const img = item.pictureURLLargeSize?.[0] || item.galleryURL?.[0] || null;
+      const url = item.viewItemURL?.[0] || '#';
+      const condition = item.condition?.[0]?.conditionDisplayName?.[0] || '';
+      const listingType = item.listingInfo?.[0]?.listingType?.[0] || '';
+
+      const card = document.createElement('a');
+      card.className = 'card';
+      card.href = url;
+      card.target = '_blank';
+      card.rel = 'noopener noreferrer';
+
+      card.innerHTML = `
+        <div class="card-img">
+          ${img
+            ? `<img src="${img}" alt="${title}" loading="lazy">`
+            : `<div class="no-img"><div class="vinyl-placeholder"></div></div>`
+          }
+          ${condition ? `<span class="condition-tag">${condition}</span>` : ''}
+        </div>
+        <div class="card-body">
+          <div class="card-title">${title}</div>
+          <div class="card-meta">${listingType === 'Auction' ? 'Auction' : 'Buy It Now'}</div>
+          <div class="card-footer">
+            <div class="price"><span class="price-currency">${currency}</span>${price}</div>
+            <div class="buy-btn">View →</div>
+          </div>
+        </div>
+      `;
+
+      grid.appendChild(card);
+    });
+
+    const container = document.getElementById('listings');
+    container.innerHTML = '';
+    container.appendChild(grid);
+  }
+
+  function sortItems(method) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    event.target.classList.add('active');
+
+    let sorted = [...allItems];
+    if (method === 'price-asc') {
+      sorted.sort((a, b) => parseFloat(a.sellingStatus?.[0]?.currentPrice?.[0]?.__value__ || 0) - parseFloat(b.sellingStatus?.[0]?.currentPrice?.[0]?.__value__ || 0));
+    } else if (method === 'price-desc') {
+      sorted.sort((a, b) => parseFloat(b.sellingStatus?.[0]?.currentPrice?.[0]?.__value__ || 0) - parseFloat(a.sellingStatus?.[0]?.currentPrice?.[0]?.__value__ || 0));
+    }
+    renderGrid(sorted);
+  }
+
+  function showError(title, msg) {
+    document.getElementById('listings').innerHTML = `
+      <div class="error-state">
+        <h2>${title}</h2>
+        <p>${msg}</p>
+      </div>
+    `;
+    document.getElementById('item-count').textContent = '';
+  }
+
+  fetchListings();
+</script>
+</body>
+</html>
