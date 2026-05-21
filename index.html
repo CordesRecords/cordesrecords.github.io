@@ -418,7 +418,8 @@
   let allItems = [];
 
   async function fetchListings() {
-    const url = `https://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsAdvanced&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=${APP_ID}&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&itemFilter(0).name=Seller&itemFilter(0).value=${SELLER}&itemFilter(1).name=ListingType&itemFilter(1).value=All&paginationInput.entriesPerPage=100&outputSelector=PictureURLLargeSize`;
+    const ebayUrl = `https://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsAdvanced&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=${APP_ID}&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&itemFilter(0).name=Seller&itemFilter(0).value=${SELLER}&itemFilter(1).name=ListingType&itemFilter(1).value=All&paginationInput.entriesPerPage=100&outputSelector=PictureURLLargeSize`;
+    const url = `https://corsproxy.io/?url=${encodeURIComponent(ebayUrl)}`;
 
     try {
       const res = await fetch(url);
