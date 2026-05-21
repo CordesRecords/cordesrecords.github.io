@@ -9,10 +9,10 @@
   :root {
     --black: #0a0a0a;
     --cream: #f5f0e8;
-    --red: #c8192a;
+    --red: #fdd05a;
     --gold: #c9a84c;
-    --grey: #2a2a2a;
-    --light-grey: #444;
+    --grey: #3a3a3a;
+    --light-grey: #888;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -26,7 +26,7 @@
 
   /* HEADER */
   header {
-    border-bottom: 1px solid #222;
+    border-bottom: 1px solid #2a2a2a;
     padding: 0 40px;
     position: sticky;
     top: 0;
@@ -70,7 +70,7 @@
     letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--light-grey);
-    border: 1px solid #333;
+    border: 1px solid #555;
     padding: 6px 12px;
   }
 
@@ -90,6 +90,7 @@
     letter-spacing: 0.15em;
     white-space: nowrap;
     animation: marquee 20s linear infinite;
+    color: #0a0a0a;
   }
 
   @keyframes marquee {
@@ -103,7 +104,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 1px solid #1a1a1a;
+    border-bottom: 1px solid #2a2a2a;
   }
 
   .section-title {
@@ -127,7 +128,7 @@
 
   .filter-btn {
     background: none;
-    border: 1px solid #333;
+    border: 1px solid #555;
     color: var(--light-grey);
     font-family: 'DM Mono', monospace;
     font-size: 0.65rem;
@@ -148,7 +149,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     gap: 1px;
-    background: #111;
+    background: #181818;
     padding: 1px;
   }
 
@@ -164,7 +165,7 @@
   }
 
   .card:hover {
-    background: #111;
+    background: #181818;
   }
 
   .card:hover .card-img img {
@@ -174,7 +175,7 @@
   .card-img {
     aspect-ratio: 1;
     overflow: hidden;
-    background: #111;
+    background: #181818;
     position: relative;
   }
 
@@ -192,7 +193,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #111;
+    background: #181818;
   }
 
   .vinyl-placeholder {
@@ -213,7 +214,7 @@
     letter-spacing: 0.2em;
     text-transform: uppercase;
     padding: 4px 8px;
-    border: 1px solid #333;
+    border: 1px solid #555;
   }
 
   .card-body {
@@ -222,7 +223,7 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
-    border-top: 1px solid #111;
+    border-top: 1px solid #2a2a2a;
   }
 
   .card-title {
@@ -249,7 +250,7 @@
     justify-content: space-between;
     margin-top: auto;
     padding-top: 12px;
-    border-top: 1px solid #1a1a1a;
+    border-top: 1px solid #2a2a2a;
   }
 
   .price {
@@ -277,7 +278,7 @@
 
   .card:hover .buy-btn {
     background: var(--red);
-    color: var(--cream);
+    color: #0a0a0a;
   }
 
   /* LOADING */
@@ -329,7 +330,7 @@
 
   /* FOOTER */
   footer {
-    border-top: 1px solid #1a1a1a;
+    border-top: 1px solid #2a2a2a;
     padding: 32px 40px;
     display: flex;
     align-items: center;
@@ -419,11 +420,12 @@
 
   async function fetchListings() {
     const ebayUrl = `https://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsAdvanced&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=${APP_ID}&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&itemFilter(0).name=Seller&itemFilter(0).value=${SELLER}&itemFilter(1).name=ListingType&itemFilter(1).value=All&paginationInput.entriesPerPage=100&outputSelector=PictureURLLargeSize`;
-    const url = `https://corsproxy.io/?url=${encodeURIComponent(ebayUrl)}`;
+    const url = `https://api.allorigins.win/get?url=${encodeURIComponent(ebayUrl)}`;
 
     try {
       const res = await fetch(url);
-      const data = await res.json();
+      const wrapper = await res.json();
+      const data = JSON.parse(wrapper.contents);
       const response = data?.findItemsAdvancedResponse?.[0];
       const items = response?.searchResult?.[0]?.item || [];
 
