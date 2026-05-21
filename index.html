@@ -419,13 +419,11 @@
   let allItems = [];
 
   async function fetchListings() {
-    const ebayUrl = `https://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsAdvanced&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=${APP_ID}&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&itemFilter(0).name=Seller&itemFilter(0).value=${SELLER}&itemFilter(1).name=ListingType&itemFilter(1).value=All&paginationInput.entriesPerPage=100&outputSelector=PictureURLLargeSize`;
-    const url = `https://api.allorigins.win/get?url=${encodeURIComponent(ebayUrl)}`;
+    const url = `https://ebay-proxy.cordesrecords.workers.dev/`;
 
     try {
       const res = await fetch(url);
-      const wrapper = await res.json();
-      const data = JSON.parse(wrapper.contents);
+      const data = await res.json();
       const response = data?.findItemsAdvancedResponse?.[0];
       const items = response?.searchResult?.[0]?.item || [];
 
