@@ -386,7 +386,7 @@
 
 <header>
   <div class="logo-block">
-    <img src="logo.png" alt="Cordes Records" style="height: 120px; width: auto; display: block;">
+    <img src="logo.png" alt="Cordes Records" style="height: 48px; width: auto; display: block;">
   </div>
   <div class="header-right">
     <a href="https://www.discogs.com/seller/mywebdots_records/profile" target="_blank" class="store-link">Discogs Store</a>
@@ -431,18 +431,16 @@
 </footer>
 
 <script>
-  const APP_ID = 'KatieCor-KatesCra-PRD-31836c410-54fd3cf9';
-  const SELLER = 'cordesrecordsvinylstore';
+
   let allItems = [];
 
   async function fetchListings() {
-    const url = `https://ebay-proxy.cordesrecords.workers.dev/`;
+    const url = 'https://ebay-proxy.cordesrecords.workers.dev/';
 
     try {
       const res = await fetch(url);
       const data = await res.json();
-      const response = data?.findItemsAdvancedResponse?.[0];
-      const items = response?.searchResult?.[0]?.item || [];
+      const items = data?.itemSummaries || [];
 
       if (items.length === 0) {
         showError('No listings found', 'No active listings were found for this seller. Check back soon.');
@@ -463,13 +461,13 @@
     grid.className = 'grid';
 
     items.forEach(item => {
-      const title = item.title?.[0] || 'Untitled';
-      const price = parseFloat(item.sellingStatus?.[0]?.currentPrice?.[0]?.__value__ || 0).toFixed(2);
-      const currency = item.sellingStatus?.[0]?.currentPrice?.[0]?.['@currencyId'] || 'AUD';
-      const img = item.pictureURLLargeSize?.[0] || item.galleryURL?.[0] || null;
-      const url = item.viewItemURL?.[0] || '#';
-      const condition = item.condition?.[0]?.conditionDisplayName?.[0] || '';
-      const listingType = item.listingInfo?.[0]?.listingType?.[0] || '';
+      const title = item.title || 'Untitled';
+      const price = parseFloat(item.price?.value || 0).toFixed(2);
+      const currency = item.price?.currency || 'AUD';
+      const img = item.thumbnailImages?.[0]?.imageUrl || item.image?.imageUrl || null;
+      const url = item.itemWebUrl || '#';
+      const condition = item.condition || '';
+      const listingType = item.buyingOptions?.includes('AUCTION') ? 'Auction' : 'Buy It Now';
 
       const card = document.createElement('a');
       card.className = 'card';
@@ -509,9 +507,9 @@
 
     let sorted = [...allItems];
     if (method === 'price-asc') {
-      sorted.sort((a, b) => parseFloat(a.sellingStatus?.[0]?.currentPrice?.[0]?.__value__ || 0) - parseFloat(b.sellingStatus?.[0]?.currentPrice?.[0]?.__value__ || 0));
+      sorted.sort((a, b) => parseFloat(a.price?.value || 0) - parseFloat(b.price?.value || 0));
     } else if (method === 'price-desc') {
-      sorted.sort((a, b) => parseFloat(b.sellingStatus?.[0]?.currentPrice?.[0]?.__value__ || 0) - parseFloat(a.sellingStatus?.[0]?.currentPrice?.[0]?.__value__ || 0));
+      sorted.sort((a, b) => parseFloat(b.price?.value || 0) - parseFloat(a.price?.value || 0));
     }
     renderGrid(sorted);
   }
